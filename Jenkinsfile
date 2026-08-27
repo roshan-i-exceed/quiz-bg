@@ -144,7 +144,7 @@ pipeline {
 
                 echo '=========================================='
  
-                bat 'mvn -f quizapp\\pom.xml clean package -DskipTests'
+                bat 'mvn -f quiz-backend\\pom.xml clean package -DskipTests'
  
                 echo '=========================================='
 
@@ -154,7 +154,7 @@ pipeline {
 
                 echo '=========================================='
  
-                bat 'dir quizapp\\target\\*.jar'
+                bat 'dir quiz-backend\\target\\*.jar'
 
 
             }
@@ -174,9 +174,9 @@ pipeline {
  
             steps {
  
-                bat 'if not exist "quizapp\\target\\quizapp.jar" (echo ERROR: JAR NOT FOUND && exit /b 1)'
+                bat 'if not exist "quiz-backend\\target\\quiz-backend.jar" (echo ERROR: JAR NOT FOUND && exit /b 1)'
  
-                echo 'QuizApp JAR found'
+                echo 'QuizBackend JAR found'
  
                 bat '''
 
@@ -230,9 +230,9 @@ pipeline {
                     start "QuizApp-Backend" /B cmd /c ^
 
 
-                    "set JENKINS_NODE_COOKIE=dontKillMe && java -jar quizapp\\target\\quizapp.jar > backend.log 2>&1"
+                    "set JENKINS_NODE_COOKIE=dontKillMe && java -jar quiz-backend\\target\\quiz-backend.jar > backend.log 2>&1"
  
-                    echo QUIZAPP START COMMAND EXECUTED
+                    echo QUIZBACKEND START COMMAND EXECUTED
 
 
                     echo WAITING FOR APPLICATION TO START
