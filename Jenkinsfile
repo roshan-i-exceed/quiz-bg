@@ -83,7 +83,7 @@ pipeline {
                 git branch: 'main',
 
 
-                    url: 'https://github.com/pravallika2580/QuizApp.git'
+                    url: 'https://github.com/roshan-i-exceed/quiz-bg.git'
  
                 echo 'QUIZAPP CHECKOUT SUCCESSFUL'
 
