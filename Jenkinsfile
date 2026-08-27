@@ -437,19 +437,19 @@ pipeline {
                     echo ==========================================
 
 
-                    if not exist "%APPZ_ARTIFACTS%\\QuizApp.war" (
+                    if not exist "%APPZ_ARTIFACTS%\\QuizFr.war" (
 
                         echo ERROR:
-                        echo QuizApp.war not found.
+                        echo QuizFr.war not found.
 
                         echo Expected:
-                        echo %APPZ_ARTIFACTS%\\QuizApp.war
+                        echo %APPZ_ARTIFACTS%\\QuizFr.war
 
                         exit /b 1
                     )
 
 
-                    echo QuizApp.war found.
+                    echo QuizFr.war found.
 
 
                     // ------------------------------------------------
@@ -512,9 +512,9 @@ pipeline {
                     echo ==========================================
 
 
-                    rmdir /S /Q "%APPZ_HOME%\\webapps\\QuizApp" >nul 2>&1
+                    rmdir /S /Q "%APPZ_HOME%\\webapps\\QuizFr" >nul 2>&1
 
-                    del /F /Q "%APPZ_HOME%\\webapps\\QuizApp.war" >nul 2>&1
+                    del /F /Q "%APPZ_HOME%\\webapps\\QuizFr.war" >nul 2>&1
 
 
                     // ------------------------------------------------
@@ -523,23 +523,23 @@ pipeline {
 
                     echo.
                     echo ==========================================
-                    echo COPYING QUIZAPP.WAR
+                    echo COPYING QuizFr.WAR
                     echo ==========================================
 
 
-                    copy /Y "%APPZ_ARTIFACTS%\\QuizApp.war" "%APPZ_HOME%\\webapps\\QuizApp.war"
+                    copy /Y "%APPZ_ARTIFACTS%\\QuizFr.war" "%APPZ_HOME%\\webapps\\QuizFr.war"
 
 
                     if errorlevel 1 (
 
                         echo ERROR:
-                        echo Failed to copy QuizApp.war.
+                        echo Failed to copy QuizFr.war.
 
                         exit /b 1
                     )
 
 
-                    echo QuizApp.war copied successfully.
+                    echo QuizFr.war copied successfully.
 
 
                     // ------------------------------------------------
