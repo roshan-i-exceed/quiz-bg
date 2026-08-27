@@ -1,0 +1,118 @@
+{
+  "info": {
+    "name": "Quiz Backend - Admin Only Flow",
+    "description": "Only the Admin-side operations, chained end-to-end. Run with Newman from any terminal (including VS Code's integrated terminal) - no Postman GUI needed.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "quizId", "value": "" },
+    { "key": "questionId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "01. Create Quiz",
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "pm.test('201 Created', () => pm.response.to.have.status(201));",
+          "pm.collectionVariables.set('quizId', pm.response.json().id);"
+        ]}
+      }],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/quizzes",
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Java Basics\",\n  \"description\": \"Basic Java knowledge\",\n  \"category\": \"Programming\"\n}" }
+      }
+    },
+    {
+      "name": "02. Add Question 1",
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "pm.test('201 Created', () => pm.response.to.have.status(201));",
+          "pm.collectionVariables.set('questionId', pm.response.json().id);"
+        ]}
+      }],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}/questions",
+        "body": { "mode": "raw", "raw": "{\n  \"questionText\": \"Which keyword is used to inherit a class in Java?\",\n  \"questionType\": \"SINGLE_CHOICE\",\n  \"options\": [\n    { \"optionText\": \"implements\", \"isCorrect\": false },\n    { \"optionText\": \"extends\", \"isCorrect\": true },\n    { \"optionText\": \"inherits\", \"isCorrect\": false },\n    { \"optionText\": \"super\", \"isCorrect\": false }\n  ]\n}" }
+      }
+    },
+    {
+      "name": "03. Add Question 2",
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "pm.test('201 Created', () => pm.response.to.have.status(201));"
+        ]}
+      }],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}/questions",
+        "body": { "mode": "raw", "raw": "{\n  \"questionText\": \"Which of these is not a Java primitive type?\",\n  \"questionType\": \"SINGLE_CHOICE\",\n  \"options\": [\n    { \"optionText\": \"int\", \"isCorrect\": false },\n    { \"optionText\": \"boolean\", \"isCorrect\": false },\n    { \"optionText\": \"String\", \"isCorrect\": true },\n    { \"optionText\": \"double\", \"isCorrect\": false }\n  ]\n}" }
+      }
+    },
+    {
+      "name": "04. Get All Quizzes",
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "pm.test('200 OK', () => pm.response.to.have.status(200));"
+        ]}
+      }],
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/admin/quizzes" }
+    },
+    {
+      "name": "05. Get Quiz By Id",
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "pm.test('200 OK', () => pm.response.to.have.status(200));",
+          "pm.test('Has 2 questions', () => pm.expect(pm.response.json().questions.length).to.eql(2));"
+        ]}
+      }],
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}" }
+    },
+    {
+      "name": "06. Update Quiz",
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "pm.test('200 OK', () => pm.response.to.have.status(200));"
+        ]}
+      }],
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}",
+        "body": { "mode": "raw", "raw": "{\n  \"title\": \"Java Basics (Updated)\",\n  \"description\": \"Basic Java knowledge - core concepts\",\n  \"category\": \"Programming\"\n}" }
+      }
+    },
+    {
+      "name": "07. Publish Quiz",
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "pm.test('200 OK', () => pm.response.to.have.status(200));",
+          "pm.test('Status is PUBLISHED', () => pm.expect(pm.response.json().status).to.eql('PUBLISHED'));"
+        ]}
+      }],
+      "request": { "method": "PUT", "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}/publish" }
+    },
+    {
+      "name": "08. Delete Quiz (cleanup)",
+      "event": [{
+        "listen": "test",
+        "script": { "type": "text/javascript", "exec": [
+          "pm.test('204 No Content', () => pm.response.to.have.status(204));"
+        ]}
+      }],
+      "request": { "method": "DELETE", "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}" }
+    }
+  ]
+}

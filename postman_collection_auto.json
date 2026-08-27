@@ -1,0 +1,349 @@
+{
+  "info": {
+    "name": "Quiz Backend API - Full Auto-Run",
+    "description": "Self-chaining collection. Each request's Tests script automatically saves IDs from the response into collection variables, so the next request picks them up automatically. Just click 'Run collection' (top-right ... menu, or the Runner) and run every request top-to-bottom with zero manual copy/paste.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "quizId", "value": "" },
+    { "key": "questionId", "value": "" },
+    { "key": "correctOptionId", "value": "" },
+    { "key": "wrongOptionId", "value": "" },
+    { "key": "question2Id", "value": "" },
+    { "key": "correct2OptionId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "01. Admin - Create Quiz",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 201', function () { pm.response.to.have.status(201); });",
+              "const body = pm.response.json();",
+              "pm.collectionVariables.set('quizId', body.id);",
+              "console.log('quizId ->', body.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/quizzes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Java Basics\",\n  \"description\": \"Basic Java knowledge\",\n  \"category\": \"Programming\"\n}"
+        }
+      }
+    },
+    {
+      "name": "02. Admin - Add Question 1",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 201', function () { pm.response.to.have.status(201); });",
+              "const body = pm.response.json();",
+              "pm.collectionVariables.set('questionId', body.id);",
+              "const correct = body.options.find(o => o.isCorrect === true);",
+              "const wrong = body.options.find(o => o.isCorrect === false);",
+              "pm.collectionVariables.set('correctOptionId', correct.id);",
+              "pm.collectionVariables.set('wrongOptionId', wrong.id);",
+              "console.log('questionId ->', body.id, 'correctOptionId ->', correct.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}/questions",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"questionText\": \"Which keyword is used to inherit a class in Java?\",\n  \"questionType\": \"SINGLE_CHOICE\",\n  \"options\": [\n    { \"optionText\": \"implements\", \"isCorrect\": false },\n    { \"optionText\": \"extends\", \"isCorrect\": true },\n    { \"optionText\": \"inherits\", \"isCorrect\": false },\n    { \"optionText\": \"super\", \"isCorrect\": false }\n  ]\n}"
+        }
+      }
+    },
+    {
+      "name": "03. Admin - Add Question 2",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 201', function () { pm.response.to.have.status(201); });",
+              "const body = pm.response.json();",
+              "pm.collectionVariables.set('question2Id', body.id);",
+              "const correct = body.options.find(o => o.isCorrect === true);",
+              "pm.collectionVariables.set('correct2OptionId', correct.id);",
+              "console.log('question2Id ->', body.id, 'correct2OptionId ->', correct.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}/questions",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"questionText\": \"Which of these is not a Java primitive type?\",\n  \"questionType\": \"SINGLE_CHOICE\",\n  \"options\": [\n    { \"optionText\": \"int\", \"isCorrect\": false },\n    { \"optionText\": \"boolean\", \"isCorrect\": false },\n    { \"optionText\": \"String\", \"isCorrect\": true },\n    { \"optionText\": \"double\", \"isCorrect\": false }\n  ]\n}"
+        }
+      }
+    },
+    {
+      "name": "04. Admin - Get All Quizzes",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/admin/quizzes"
+      }
+    },
+    {
+      "name": "05. Admin - Get Quiz By Id",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Has 2 questions', function () { pm.expect(pm.response.json().questions.length).to.eql(2); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}"
+      }
+    },
+    {
+      "name": "06. Admin - Publish Quiz",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Status is PUBLISHED', function () { pm.expect(pm.response.json().status).to.eql('PUBLISHED'); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}/publish"
+      }
+    },
+    {
+      "name": "07. User - Get Available Quizzes",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('No isCorrect field leaked', function () {",
+              "  const body = JSON.stringify(pm.response.json());",
+              "  pm.expect(body).to.not.include('isCorrect');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/quizzes"
+      }
+    },
+    {
+      "name": "08. User - Get Quiz",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('No isCorrect field leaked', function () {",
+              "  const body = JSON.stringify(pm.response.json());",
+              "  pm.expect(body).to.not.include('isCorrect');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/quizzes/{{quizId}}"
+      }
+    },
+    {
+      "name": "09. User - Submit Quiz (1 correct, 1 wrong)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 201', function () { pm.response.to.have.status(201); });",
+              "const body = pm.response.json();",
+              "pm.test('1 correct answer recorded', function () { pm.expect(body.correctAnswers).to.eql(1); });",
+              "pm.test('Total questions is 2', function () { pm.expect(body.totalQuestions).to.eql(2); });",
+              "console.log('Result ->', JSON.stringify(body));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/quizzes/{{quizId}}/submit",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answers\": [\n    { \"questionId\": {{questionId}}, \"optionId\": {{correctOptionId}} },\n    { \"questionId\": {{question2Id}}, \"optionId\": {{correctOptionId}} }\n  ]\n}"
+        }
+      }
+    },
+    {
+      "name": "10. User - Get Results For This Quiz",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('At least one result', function () { pm.expect(pm.response.json().length).to.be.above(0); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/quizzes/{{quizId}}/results"
+      }
+    },
+    {
+      "name": "11. User - Get My Results (all quizzes)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () { pm.response.to.have.status(200); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/user/results"
+      }
+    },
+    {
+      "name": "12. Admin - Update Quiz Back to DRAFT",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 200', function () { pm.response.to.have.status(200); });",
+              "pm.test('Status is DRAFT', function () { pm.expect(pm.response.json().status).to.eql('DRAFT'); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Java Basics (Updated)\",\n  \"description\": \"Basic Java knowledge - core concepts\",\n  \"category\": \"Programming\",\n  \"status\": \"DRAFT\"\n}"
+        }
+      }
+    },
+    {
+      "name": "13. Admin - Delete Quiz (cleanup)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status is 204', function () { pm.response.to.have.status(204); });"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}"
+      }
+    },
+    {
+      "name": "Negative Tests (optional, run separately)",
+      "item": [
+        {
+          "name": "N1. Create then Publish empty quiz -> 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 400', function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}/publish"
+          }
+        },
+        {
+          "name": "N2. Get nonexistent quiz -> 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Status is 404', function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/admin/quizzes/999999"
+          }
+        }
+      ]
+    }
+  ]
+}

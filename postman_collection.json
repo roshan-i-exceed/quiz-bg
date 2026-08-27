@@ -1,0 +1,120 @@
+{
+  "info": {
+    "name": "Quiz Backend API",
+    "description": "Generic, domain-independent Quiz Application backend. Run requests top-to-bottom: create quiz -> add questions -> publish -> browse as user -> submit -> view results.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "quizId", "value": "" },
+    { "key": "questionId", "value": "" },
+    { "key": "optionId", "value": "" },
+    { "key": "wrongOptionId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "1. Admin - Create Quiz",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/quizzes",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Java Basics\",\n  \"description\": \"Basic Java knowledge\",\n  \"category\": \"Programming\"\n}"
+        }
+      }
+    },
+    {
+      "name": "2. Admin - Add Question",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}/questions",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"questionText\": \"Which keyword is used to inherit a class in Java?\",\n  \"questionType\": \"SINGLE_CHOICE\",\n  \"options\": [\n    { \"optionText\": \"implements\", \"isCorrect\": false },\n    { \"optionText\": \"extends\", \"isCorrect\": true },\n    { \"optionText\": \"inherits\", \"isCorrect\": false },\n    { \"optionText\": \"super\", \"isCorrect\": false }\n  ]\n}"
+        }
+      }
+    },
+    {
+      "name": "3. Admin - Get All Quizzes",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/admin/quizzes"
+      }
+    },
+    {
+      "name": "4. Admin - Get Quiz By Id",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}"
+      }
+    },
+    {
+      "name": "5. Admin - Update Quiz",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Java Basics (Updated)\",\n  \"description\": \"Basic Java knowledge - core concepts\",\n  \"category\": \"Programming\"\n}"
+        }
+      }
+    },
+    {
+      "name": "6. Admin - Publish Quiz",
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}/publish"
+      }
+    },
+    {
+      "name": "7. User - Get Available Quizzes",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/quizzes"
+      }
+    },
+    {
+      "name": "8. User - Get Quiz",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/quizzes/{{quizId}}"
+      }
+    },
+    {
+      "name": "9. User - Submit Quiz",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/quizzes/{{quizId}}/submit",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"answers\": [\n    { \"questionId\": {{questionId}}, \"optionId\": {{optionId}} }\n  ]\n}"
+        }
+      }
+    },
+    {
+      "name": "10. User - Get Results For Quiz",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/quizzes/{{quizId}}/results"
+      }
+    },
+    {
+      "name": "11. User - Get My Results (all quizzes)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/user/results"
+      }
+    },
+    {
+      "name": "12. Admin - Delete Quiz",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/admin/quizzes/{{quizId}}"
+      }
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+{
+  "externalId": "java-fundamentals-001",
+  "title": "Java Fundamentals",
+  "description": "A basic quiz covering core Java programming concepts.",
+  "category": "Programming",
+  "status": "PUBLISHED",
+  "questions": [
+    {
+      "externalId": "java-q1",
+      "questionText": "Which keyword is used to inherit a class in Java?",
+      "questionType": "SINGLE_CHOICE",
+      "points": 1,
+      "options": [
+        {
+          "optionText": "implements",
+          "isCorrect": false
+        },
+        {
+          "optionText": "extends",
+          "isCorrect": true
+        },
+        {
+          "optionText": "inherits",
+          "isCorrect": false
+        },
+        {
+          "optionText": "super",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "externalId": "java-q2",
+      "questionText": "Which of the following is NOT a primitive data type in Java?",
+      "questionType": "SINGLE_CHOICE",
+      "points": 1,
+      "options": [
+        {
+          "optionText": "int",
+          "isCorrect": false
+        },
+        {
+          "optionText": "boolean",
+          "isCorrect": false
+        },
+        {
+          "optionText": "String",
+          "isCorrect": true
+        },
+        {
+          "optionText": "double",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "externalId": "java-q3",
+      "questionText": "Which collection does not allow duplicate elements?",
+      "questionType": "SINGLE_CHOICE",
+      "points": 1,
+      "options": [
+        {
+          "optionText": "List",
+          "isCorrect": false
+        },
+        {
+          "optionText": "Set",
+          "isCorrect": true
+        },
+        {
+          "optionText": "ArrayList",
+          "isCorrect": false
+        },
+        {
+          "optionText": "Vector",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "externalId": "java-q4",
+      "questionText": "Which method is the entry point of a standard Java application?",
+      "questionType": "SINGLE_CHOICE",
+      "points": 1,
+      "options": [
+        {
+          "optionText": "start()",
+          "isCorrect": false
+        },
+        {
+          "optionText": "run()",
+          "isCorrect": false
+        },
+        {
+          "optionText": "main()",
+          "isCorrect": true
+        },
+        {
+          "optionText": "execute()",
+          "isCorrect": false
+        }
+      ]
+    },
+    {
+      "externalId": "java-q5",
+      "questionText": "Which keyword is used to create an object in Java?",
+      "questionType": "SINGLE_CHOICE",
+      "points": 1,
+      "options": [
+        {
+          "optionText": "class",
+          "isCorrect": false
+        },
+        {
+          "optionText": "object",
+          "isCorrect": false
+        },
+        {
+          "optionText": "new",
+          "isCorrect": true
+        },
+        {
+          "optionText": "create",
+          "isCorrect": false
+        }
+      ]
+    }
+  ]
+}
