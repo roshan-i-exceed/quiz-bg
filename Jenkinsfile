@@ -40,12 +40,12 @@ pipeline {
         APPZ_HOME =
 
 
-            'D:\SoftwarePath\apache-tomcat-9.0.53'
+            'D:/SoftwarePath/apache-tomcat-9.0.53'
  
         APPZ_ARTIFACTS =
 
 
-            'D:\build'
+            'D:/build'
  
         TOMCAT_PORT = '8018'
  
