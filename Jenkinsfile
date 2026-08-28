@@ -794,6 +794,7 @@ stage('Run Playwright Tests') {
             echo ==========================================
 
             set "PLAYWRIGHT_CHANNEL=chrome"
+            set "PLAYWRIGHT_HOLD_MS=30000"
 
             call npx playwright test --project=chromium --list
 
