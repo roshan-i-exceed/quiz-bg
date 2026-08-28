@@ -790,20 +790,21 @@ stage('Run Playwright Tests') {
 
             echo.
             echo ==========================================
-            echo INSTALLING PLAYWRIGHT CHROMIUM
+            echo CHECKING INSTALLED GOOGLE CHROME
             echo ==========================================
 
-            set "PLAYWRIGHT_BROWSERS_PATH=%WORKSPACE%\\.playwright"
+            set "PLAYWRIGHT_CHANNEL=chrome"
 
-            call npx playwright install chromium
+            call npx playwright test --project=chromium --list
 
             if errorlevel 1 (
 
                 echo.
                 echo ==========================================
-                echo CHROMIUM INSTALLATION FAILED
+                echo GOOGLE CHROME CHECK FAILED
                 echo ==========================================
 
+                echo Google Chrome must be installed for the Jenkins user.
                 exit /b 1
             )
 
