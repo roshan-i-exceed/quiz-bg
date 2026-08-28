@@ -876,3 +876,5 @@ stage('Run Playwright Tests') {
         '''
     }
 }
+    }
+}
