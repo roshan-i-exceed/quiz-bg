@@ -1,0 +1,22 @@
+{
+  "name": "quiz-backend",
+  "version": "1.0.0",
+  "description": "A simple, clean, **domain-independent** backend for a Quiz Application.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roshan-i-exceed/quiz-bg.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/roshan-i-exceed/quiz-bg/issues"
+  },
+  "homepage": "https://github.com/roshan-i-exceed/quiz-bg#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.4.0"
+  }
+}
