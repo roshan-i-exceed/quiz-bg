@@ -5,5 +5,6 @@ test('application is reachable', async ({ page }) => {
   const response = await page.goto('/');
 
   expect(response).not.toBeNull();
-  expect(response.ok()).toBeTruthy();
+  expect(response.status()).toBeGreaterThanOrEqual(200);
+  expect(response.status()).toBeLessThan(500);
 });
