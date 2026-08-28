@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "A simple, clean, **domain-independent** backend for a Quiz Application.",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --project=chromium --headed"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/roshan-i-exceed/quiz-bg.git"
