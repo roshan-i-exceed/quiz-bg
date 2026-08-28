@@ -793,7 +793,7 @@ stage('Run Playwright Tests') {
             echo INSTALLING PLAYWRIGHT CHROMIUM
             echo ==========================================
 
-            set "PLAYWRIGHT_BROWSERS_PATH=%WORKSPACE%\.playwright"
+            set "PLAYWRIGHT_BROWSERS_PATH=%WORKSPACE%\\.playwright"
 
             call npx playwright install chromium
 
