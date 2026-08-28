@@ -8,13 +8,14 @@ import com.microsoft.playwright.options.AriaRole;
 public class ExampleTest {
  
     @Test
-    void quizAppFlow() {
+    void quizAppFlow() throws InterruptedException {
  
         Playwright playwright = Playwright.create();
  
         Browser browser = playwright.chromium().launch(
             new BrowserType.LaunchOptions()
                 .setHeadless(false)
+                .setChannel("chrome")
                 .setDevtools(true)
         );
  
@@ -22,7 +23,7 @@ public class ExampleTest {
         Page page = context.newPage();
  
         // Open application
-        page.navigate("http://localhost:8018/QuizFr/");
+        page.navigate(System.getenv().getOrDefault("APPZILLON_URL", "http://localhost:8018/QuizFr/"));
  
         System.out.println("Quiz application opened successfully");
         page.locator("html").click();
@@ -39,8 +40,8 @@ public class ExampleTest {
     page.getByRole(AriaRole.BUTTON, new Page.GetByRoleOptions().setName("Ok")).click();
     page.locator("#td_QuizFr__Questions__el_btn_4_1").click();
  
-        // Keep browser open
-        page.pause();
+        String holdTime = System.getenv().getOrDefault("PLAYWRIGHT_HOLD_MS", "30000");
+        Thread.sleep(Long.parseLong(holdTime));
  
         // DO NOT close browser while inspecting
         // browser.close();

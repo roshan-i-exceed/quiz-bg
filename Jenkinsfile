@@ -699,15 +699,15 @@ pipeline {
             }
         }
 // ============================================================
-// PLAYWRIGHT AUTOMATION TEST
+// JAVA PLAYWRIGHT AUTOMATION TEST
 // ============================================================
 
-stage('Run Playwright Tests') {
+stage('Run Java Playwright Test') {
 
     steps {
 
         echo '=========================================='
-        echo 'STARTING PLAYWRIGHT AUTOMATION'
+        echo 'STARTING JAVA PLAYWRIGHT AUTOMATION'
         echo '=========================================='
 
 
@@ -716,154 +716,18 @@ stage('Run Playwright Tests') {
 
             echo.
             echo ==========================================
-            echo CHECKING NODE.JS
+            echo CHECKING JAVA PLAYWRIGHT TEST
             echo ==========================================
 
-            node --version
-
-            if errorlevel 1 (
-                echo ERROR: Node.js is not installed.
-                exit /b 1
-            )
-
-            call npm --version
-
-            if errorlevel 1 (
-                echo ERROR: npm is not installed.
-                exit /b 1
-            )
-
-
-            echo.
-            echo ==========================================
-            echo CHECKING PLAYWRIGHT PROJECT
-            echo ==========================================
-
-            if not exist "package.json" (
-
-                echo ERROR: package.json not found.
-
-                echo.
-                echo Current Jenkins workspace:
-                cd
-
-                echo.
-                echo Workspace contents:
-                dir
-
-                exit /b 1
-            )
-
-            echo package.json found successfully.
-
-
-            echo.
-            echo ==========================================
-            echo INSTALLING NPM DEPENDENCIES
-            echo ==========================================
-
-            if exist "package-lock.json" (
-
-                echo package-lock.json found.
-                echo Running npm ci...
-
-                call npm ci
-
-            ) else (
-
-                echo package-lock.json not found.
-                echo Running npm install...
-
-                call npm install
-            )
-
-            if errorlevel 1 (
-
-                echo.
-                echo ==========================================
-                echo NPM INSTALLATION FAILED
-                echo ==========================================
-
-                exit /b 1
-            )
-
-
-            echo.
-            echo ==========================================
-            echo CHECKING INSTALLED GOOGLE CHROME
-            echo ==========================================
-
-            set "PLAYWRIGHT_CHANNEL=chrome"
             set "PLAYWRIGHT_HOLD_MS=30000"
 
-            call npx playwright test --project=chromium --list
+            call mvn -Dtest=ExampleTest test
 
             if errorlevel 1 (
 
                 echo.
                 echo ==========================================
-                echo GOOGLE CHROME CHECK FAILED
-                echo ==========================================
-
-                echo Google Chrome must be installed for the Jenkins user.
-                exit /b 1
-            )
-
-
-            echo.
-            echo ==========================================
-            echo CHECKING APPZILLON APPLICATION
-            echo ==========================================
-
-            echo Application URL:
-            echo %APPZILLON_URL%
-
-            curl -s -o nul -w "%%{http_code}" "%APPZILLON_URL%"
-
-            if errorlevel 1 (
-
-                echo.
-                echo ERROR:
-                echo Appzillon application is not reachable.
-
-                exit /b 1
-            )
-
-
-            echo.
-            echo ==========================================
-            echo RUNNING PLAYWRIGHT TESTS
-            echo ==========================================
-
-            echo Browser:
-            echo Chromium
-
-            echo.
-            echo Browser Mode:
-            echo HEADED
-
-            echo.
-            echo Application:
-            echo %APPZILLON_URL%
-
-            echo.
-            echo ==========================================
-            echo CHROMIUM WILL OPEN AUTOMATICALLY
-            echo ==========================================
-
-
-            set "CI="
-
-            set "PLAYWRIGHT_BASE_URL=%APPZILLON_URL%"
-
-            call npm run test:e2e:headed
-
-
-            if errorlevel 1 (
-
-                echo.
-                echo ==========================================
-                echo PLAYWRIGHT TESTS FAILED
+                echo JAVA PLAYWRIGHT TEST FAILED
                 echo ==========================================
 
                 exit /b 1
@@ -872,7 +736,7 @@ stage('Run Playwright Tests') {
 
             echo.
             echo ==========================================
-            echo PLAYWRIGHT TESTS PASSED
+            echo JAVA PLAYWRIGHT TEST PASSED
             echo ==========================================
 
         '''
