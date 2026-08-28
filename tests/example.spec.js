@@ -10,6 +10,6 @@ test('application is reachable', async ({ page }) => {
 
   const holdTime = Number(process.env.PLAYWRIGHT_HOLD_MS || 0);
   if (holdTime > 0) {
-    await page.waitForTimeout(holdTime);
+    await new Promise((resolve) => setTimeout(resolve, holdTime));
   }
 });
