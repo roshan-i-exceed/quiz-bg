@@ -726,7 +726,7 @@ stage('Run Playwright Tests') {
                 exit /b 1
             )
 
-            npm --version
+            call npm --version
 
             if errorlevel 1 (
                 echo ERROR: npm is not installed.
